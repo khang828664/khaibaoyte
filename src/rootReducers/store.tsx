@@ -14,13 +14,10 @@ const rootReducer = (state = initalState , action : actionType) =>{
     switch (action.type) {
         case "YES":
             return {...state , answer1: action.payload.answer}
-            break;
         case "NO":
             return {...state , answer1: action.payload.answer}
-            break;
         default:
             return state
-            break;
     }
 }
 export const store = createStore(rootReducer)
