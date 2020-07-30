@@ -52,7 +52,7 @@ function  Detail  () {
     const yesAnswer = {
       answer:"Y"
   }
-   const action = actionNo(yesAnswer)
+   const action = actionYes(yesAnswer)
     navigation.navigate("AnotherDetail")
     dispatch(action)
   } 

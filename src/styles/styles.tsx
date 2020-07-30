@@ -41,22 +41,22 @@ export const HomeStyle = () => (
             flex: 0,
             backgroundColor: "red",
             borderRadius: 10,
-            paddingHorizontal: RFPercentage(2),
+            paddingHorizontal: RFPercentage(10),
             margin: 50,
             alignItems:"center",
-            paddingVertical:RFPercentage(2),
+            paddingVertical:RFPercentage(0.5),
           
           },
           TitleTitle:{
             textAlign :"center", 
             marginVertical:50,
-            fontSize:RFPercentage(5), 
+            fontSize:RFPercentage(3), 
             color:"#C2000B",
             fontWeight:"bold"
             
           },
           title:{
-            fontSize:RFPercentage(5),
+            fontSize:RFPercentage(3),
             color:"#000",
             textAlign:"left",
             marginBottom:10,
@@ -65,8 +65,9 @@ export const HomeStyle = () => (
           },
           textStyle:{
             color : "#000",
-            fontSize:RFPercentage(5),
-            marginBottom:70
+            fontSize:RFPercentage(3),
+            marginBottom:70, 
+            textAlign:"center"
           },
           Bg : {
             resizeMode:"cover",
@@ -147,7 +148,7 @@ return (
         },
         textStyle:{
           color : "#000",
-          fontSize:RFPercentage(3),                               
+          fontSize:RFPercentage(1.5),                               
           marginVertical:10,
           paddingVertical:5
           

@@ -15,6 +15,7 @@ import {useNavigation} from "@react-navigation/native"
 import axios from 'axios'
 import {AnotherDetailStyle} from '../styles/styles'
 import AlertPro from "react-native-alert-pro";
+import {OLD_URL} from  "../constant/baseUrl";
 // add constant props
 interface stateUsing  {
   answer1: string 
@@ -23,6 +24,7 @@ const styles  =  AnotherDetailStyle()
 const img = require("./res/Main.png")
 const logo = require("./res/Logo.png")
 const logo1 = require("./res/Logo1.png")
+const baseUrl = OLD_URL
 // get state at store  
 
 function AnotherDetail () {
@@ -72,6 +74,8 @@ function AnotherDetail () {
     })
   }
   const _convertDevice = (macId : string) => {
+
+
     switch (macId) {
 
       case '18:93:7F:B3:CE:A6':
@@ -93,49 +97,53 @@ function AnotherDetail () {
         setNameDevice("kiosk5")
         break;
       default:
+        setNameDevice("kiosk6")
         console.log("MAC NOT FOUND");
 
     }
   }
     const  _No = async (images: any) => {
     const data = new FormData();
-    data.append('Result', '{"ans_1":"' + notSick + '","ans_2":"N"}');
+    data.append('Result', '{"ans_1":"' +notSick+ '","ans_2":"N"}');
     data.append('User', nameDevice);
 
     for (let index = 0; index < images.length; index++) {
       const image = images[index];
       data.append(`Files[${index}]`, image);
     }
-    const url = "http://14.241.239.78:8095/beta.tek.btc.kiot";
+    const url = baseUrl+"api/Survey";
     axios({
       method: 'post',
       url: url,
       data: data,
       headers: { 'content-type': 'multipart/form-data' }
-    }).then(function (response) {
+    }).then((response) =>  {
       //handle success
-    }).catch(function (response) {
-      //handle error
+      console.log(response.data)
+    }).catch((response) => {
+      console.warn(response)
     });
   };
 
   const _Yes = async (images : any) => {
     const data = new FormData();
-    data.append('Result', '{"ans_1":"' + notSick+ '","ans_2":"Y"}');
+    data.append('Result', '{"ans_1":"' +notSick+ '","ans_2":"Y"}');
     data.append('User', nameDevice);
 
     for (let index = 0; index < images.length; index++) {
       const image = images[index];
       data.append(`Files[${index}]`, image);
     }
-    const url = "http://14.241.239.78:8095/beta.tek.btc.kiot";
+    const url = baseUrl + "/api/Survey";
     axios({
       method: 'post',
       url: url,
       data: data,
       headers: { 'content-type': 'multipart/form-data' }
-    }).then(function (response) {
-    }).catch(function (response) {
+    }).then((response) => {
+      console.log(response.data)
+    }).catch((response) => {
+      console.log(response)
     });
     navigation.navigate("UGotSick")
   };

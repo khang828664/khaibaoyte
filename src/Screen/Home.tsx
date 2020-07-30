@@ -11,9 +11,7 @@ const LOGO = require("./res/Logo.png")
 const styles = HomeStyle()
 export default function  Home () {
   const navigation = useNavigation()
-  const answer1 = useSelector((state : rootState)  => state.answer1)
   useEffect(() => {
-    console.log('anssjsasjasjkasj', answer1)
     return () => {
     }
   }, [])
