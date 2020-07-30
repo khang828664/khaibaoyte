@@ -1,4 +1,6 @@
-import {createStore} from 'redux'
+import {createStore, applyMiddleware} from 'redux'
+import  createSagaMiddleware from 'redux-saga'
+
 let initalState = {
     answer1:""
 }
@@ -14,13 +16,10 @@ const rootReducer = (state = initalState , action : actionType) =>{
     switch (action.type) {
         case "YES":
             return {...state , answer1: action.payload.answer}
-            break;
         case "NO":
             return {...state , answer1: action.payload.answer}
-            break;
         default:
             return state
-            break;
     }
 }
 export const store = createStore(rootReducer)
