@@ -37,7 +37,7 @@ class TestCamera extends React.Component {
       baseURL: 'http://totoshop.yez.vn',
                           headers: {
                           'Content-Type': 'multipart/form-data',
-                         'Cache-Control': 'cache',
+                          'Cache-Control': 'cache',
                           Accept: 'application/json',
                         }
                       })
