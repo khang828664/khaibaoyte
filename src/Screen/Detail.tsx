@@ -12,11 +12,8 @@ const logo = require("./res/Logo.png")
 const logo1 = require("./res/Logo1.png")
 
 import { DetailStyles } from '../styles/styles'
-interface disPatchMethod  {
-  setStatus : any
-}
 interface payloadType  {
-   answer: string
+   answer1: string
 }
 const styles = DetailStyles()
 
@@ -40,21 +37,20 @@ function  Detail  () {
   }
  const  onHandelNo = () => {
   const noAnswer = {
-      answer:"N"
+      answer1:"N"
   }
-   const action = actionNo(noAnswer)
    navigation.navigate("AnotherDetail")
-   dispatch(action)
+   dispatch(actionNo(noAnswer))
     
   }
 
   const onHandeYes = () => {
     const yesAnswer = {
-      answer:"Y"
+      answer1:"Y"
   }
-   const action = actionYes(yesAnswer)
+  
     navigation.navigate("AnotherDetail")
-    dispatch(action)
+    dispatch( actionYes(yesAnswer))
   } 
 
   return (
@@ -102,14 +98,4 @@ function  Detail  () {
       </View>
     );
   }
-  const mapDispatchToProps = dispatch  => {
-    return {
-      // dispatching plain actions
-      actionYes: (payload: any ) => dispatch({ type: 'YES', payload}),
-      actionNo : (payload : any) => dispatch({ type: 'NO' , payload}),
-    }
-  }
-export default connect (
-  mapDispatchToProps
-
-) (Detail)
+  export default Detail

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {useSelector} from "react-redux"
+import React, { useState, useEffect,useMemo } from 'react';
+import { useSelector, useDispatch } from "react-redux"
 import {
   Text,
   TouchableOpacity,
@@ -14,10 +14,9 @@ import {useNavigation} from "@react-navigation/native"
 
 import axios from 'axios'
 import {AnotherDetailStyle} from '../styles/styles'
-import AlertPro from "react-native-alert-pro";
 import {OLD_URL} from  "../constant/baseUrl";
 // add constant props
-interface stateUsing  {
+type stateUsing =  {
   answer1: string 
 }
 const styles  =  AnotherDetailStyle()
@@ -30,8 +29,30 @@ const baseUrl = OLD_URL
 function AnotherDetail () {
   const navigation = useNavigation()
   const answer1 =  useSelector((state:stateUsing) => state.answer1)
+  console.log(answer1)
   const [nameDevice , setNameDevice] = useState("")
   const [notSick , setNotSick ] = useState(answer1)
+  const dispatch = useDispatch()
+
+  // dispatch action generator 
+
+   type payloadType = {
+     answer2 : string 
+     imageData : any []
+   }
+  const  setActionYES = (payload :  payloadType) => (
+    {
+      type:"YES", 
+      payload
+    }
+  )
+  const setActionNo  =  (payload : payloadType) => ({
+    type:"NO",
+    payload
+  })
+
+
+
   useEffect(() => {
     _device()
     //get state from store
@@ -44,6 +65,11 @@ function AnotherDetail () {
       const data = await this.camera.takePictureAsync(options);
       images.push(data.base64);
     }
+      let payload = {
+        answer2 : "Y",
+        imageData : images
+      }
+    dispatch(setActionYES(payload))
     await _Yes (images);
     navigation.navigate("UGotSick")
  
@@ -58,6 +84,11 @@ function AnotherDetail () {
       images.push(data.base64);
     }
     await _No(images);
+    let payload = {
+      answer2 : "N",
+      imageData : images
+    }
+    dispatch(setActionNo(payload))
     if (notSick === 'N') {
       navigation.navigate("Notifi")
     }
