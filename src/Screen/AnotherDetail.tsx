@@ -14,24 +14,27 @@ import {useNavigation} from "@react-navigation/native"
 
 import axios from 'axios'
 import {AnotherDetailStyle} from '../styles/styles'
-import {OLD_URL} from  "../constant/baseUrl";
+import { BASE_URL } from  "../constant/baseUrl";
 // add constant props
 type stateUsing =  {
-  answer1: string 
+  detail: {
+    answer1: string
+  } 
 }
 const styles  =  AnotherDetailStyle()
 const img = require("./res/Main.png")
 const logo = require("./res/Logo.png")
 const logo1 = require("./res/Logo1.png")
-const baseUrl = OLD_URL
+const baseUrl = BASE_URL
 // get state at store  
 
 function AnotherDetail () {
   const navigation = useNavigation()
-  const answer1 =  useSelector((state:stateUsing) => state.answer1)
-  console.log(answer1)
-  const [nameDevice , setNameDevice] = useState("")
-  const [notSick , setNotSick ] = useState(answer1)
+
+  //getState from rootStore
+  const answer1 =  useSelector((state:stateUsing) => state.detail.answer1)
+  const [nameDevice , setNameDevice] = useState<string>("")
+  const [notSick , setNotSick ] = useState<string>(answer1)
   const dispatch = useDispatch()
 
   // dispatch action generator 
@@ -55,10 +58,8 @@ function AnotherDetail () {
 
   useEffect(() => {
     _device()
-    //get state from store
   }, [])
   const  takePictureWithAnswerYes = async () => {
-    console.log("camera was click")
     let images = [];
     for (let index = 0; index < 1; index++) {
       const options = { quality: 0, base64: true, fixOrientation: true, };
@@ -76,7 +77,6 @@ function AnotherDetail () {
   };
 
   const  takePictureWithAnswerNo = async () => {
-    console.log("camera was click")
     let images = [];
     for (let index = 0; index < 1; index++) {
       const options = { quality: 0, base64: true, fixOrientation: true, };
@@ -129,8 +129,6 @@ function AnotherDetail () {
         break;
       default:
         setNameDevice("kiosk6")
-        console.log("MAC NOT FOUND");
-
     }
   }
     const  _No = async (images: any) => {
@@ -149,10 +147,11 @@ function AnotherDetail () {
       data: data,
       headers: { 'content-type': 'multipart/form-data' }
     }).then((response) =>  {
-      //handle success
-      console.log(response.data)
+      console.log(response)
+      console.log(response)
     }).catch((response) => {
-      console.warn(response)
+      //handle errror
+      console.log(response)
     });
   };
 
@@ -165,14 +164,14 @@ function AnotherDetail () {
       const image = images[index];
       data.append(`Files[${index}]`, image);
     }
-    const url = baseUrl + "/api/Survey";
+    const url = baseUrl + "api/Survey" ;
     axios({
       method: 'post',
       url: url,
       data: data,
       headers: { 'content-type': 'multipart/form-data' }
     }).then((response) => {
-      console.log(response.data)
+      console.log(response)
     }).catch((response) => {
       console.log(response)
     });
@@ -181,7 +180,7 @@ function AnotherDetail () {
     return (
       <View style={styles.container}>
         <RNCamera
-          ref={(ref) => {
+          ref={(ref) => { 
             this.camera = ref;
           }}
           style={styles.preview}

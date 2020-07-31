@@ -2,14 +2,18 @@ import  React,{useEffect , useState } from "react"
 import { View , Text , TouchableOpacity, ImageBackground,Dimensions , Image, } from "react-native"
 import { HomeStyle } from "../styles/styles"
 import { useNavigation } from '@react-navigation/native';
-import {useSelector} from "react-redux"
+import {useSelector,useDispatch} from "react-redux"
 interface rootState  {
-  answer1 : string
+  detail : {
+    answer1 :string
+  }
 }
 const BG  = require("./res/Main.png")
 const LOGO = require("./res/Logo.png")
 const styles = HomeStyle()
 export default function  Home () {
+  const A = useSelector((state: rootState) => state.detail.answer1 )
+  console.log(A)
   const navigation = useNavigation()
   useEffect(() => {
     return () => {

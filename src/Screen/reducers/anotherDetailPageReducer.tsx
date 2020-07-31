@@ -14,8 +14,8 @@ const initalState = {
         imageListData : null
 }
 
-export    const    anotherDetailReducer  = (state =  initalState, action : actionType)  => {
-    console.log(action)
+export const anotherDetailReducer  = (state =  initalState, action : actionType)  => {
+    console.log(action.type)
     switch (action.type) {
         case "YES":
             return {...state, answer2 : action.payload.answer2 , imageDataList : action.payload.imageDataList } 
