@@ -6,7 +6,7 @@ export const HomeStyle = () => (
 
         image:{
             width: 300,
-            height: 200,
+            height: 300,
             resizeMode: 'stretch',
           },
           preview: {
@@ -80,9 +80,10 @@ export const DetailStyles = () => {
 return (
     StyleSheet.create({
         image:{
-          width: 300,
+          width: 200,
           height: 200,
           resizeMode: 'stretch',
+          marginHorizontal :10
         },
         preview: {
             flex: 0,
@@ -165,7 +166,7 @@ export const AnotherDetailStyle = () => {
     return (
          StyleSheet.create({
             image: {
-              width: 300,
+              width: 200,
               height: 200,
               resizeMode: 'stretch',
             },
@@ -250,7 +251,7 @@ export const UGotSickStyle = () => {
     return (
         StyleSheet.create({
             image:{
-              width: 300,
+              width: 200,
               height: 200,
               resizeMode: 'stretch',
             },
@@ -328,7 +329,7 @@ export const NotifiStyle = () => {
     return  (
         StyleSheet.create({
             image:{
-              width: 300,
+              width: 200,
               height: 200,
               resizeMode: 'stretch',
             },
