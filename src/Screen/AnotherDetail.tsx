@@ -78,22 +78,22 @@ function AnotherDetail () {
 
     switch (macId) {
 
-      case '18:93:7F:B3:CE:A6':
+      case '18:93:7F:B4:A4:24':
         setNameDevice("kiosk1")
         break;
 
-      case '18:93:7F:B4:4C:E0':
+      case '18:93:7F:B3:FC:6A':
         setNameDevice("kiosk2")
         break;
 
-      case '18:93:7F:B3:FC:6A':
+      case '18:93:7F:B3:CE:A6':
         setNameDevice("kiosk3")
         break;
 
-      case '18:93:7F:B3:BF:AC':
+      case '18:93:7F:B4:4C:E0':
         setNameDevice("kiosk4")
         break;
-      case '18:93:7F:B4:A4:24':
+      case '18:93:7F:B3:BF:AC':
         setNameDevice("kiosk5")
         break;
       default:
