@@ -15,7 +15,7 @@ import {useNavigation} from "@react-navigation/native"
 import axios from 'axios'
 import {AnotherDetailStyle} from '../styles/styles'
 import AlertPro from "react-native-alert-pro";
-import {OLD_URL} from  "../constant/baseUrl";
+import {BASE_URL} from  "../constant/baseUrl";
 // add constant props
 interface stateUsing  {
   answer1: string 
@@ -24,7 +24,7 @@ const styles  =  AnotherDetailStyle()
 const img = require("./res/Main.png")
 const logo = require("./res/Logo.png")
 const logo1 = require("./res/Logo1.png")
-const baseUrl = OLD_URL
+const baseUrl = BASE_URL
 // get state at store  
 
 function AnotherDetail () {
@@ -119,7 +119,7 @@ function AnotherDetail () {
       headers: { 'content-type': 'multipart/form-data' }
     }).then((response) =>  {
       //handle success
-      console.log(response.data)
+      console.log(response)
     }).catch((response) => {
       console.warn(response)
     });
@@ -141,7 +141,7 @@ function AnotherDetail () {
       data: data,
       headers: { 'content-type': 'multipart/form-data' }
     }).then((response) => {
-      console.log(response.data)
+      console.log(response)
     }).catch((response) => {
       console.log(response)
     });
