@@ -7,7 +7,11 @@ import AnotherDetail from "./AnotherDetail"
 import TestCamera from "./TestCamera"
 import UGotSick from './UGotSick'
 import Notifi from './Notifi'
-const Stack = createStackNavigator()    ;
+import infor  from  './infor'
+const Stack = createStackNavigator();
+const navigationOption = {
+  headerShown: false
+}
 function PageStack () {
     console.log("page was render")
     return (
@@ -45,6 +49,9 @@ function PageStack () {
                 headerShown: false,
               }}     
             />
+              <Stack.Screen  name = "infor" component={infor} 
+                options = {navigationOption}
+              /> 
              </Stack.Navigator>
         </NavigationContainer>
     )

@@ -418,31 +418,37 @@ return (
     },
     container: {
       flex: 1,
-      justifyContent:"flex-start"
+      justifyContent:"center",
+
     },
     subContainer:{
       flex:1,
-      justifyContent:"flex-start",
-      marginHorizontal:20
+      justifyContent:"center", 
+      alignItems:"center", 
+      paddingTop:60, 
+      paddingBottom:200
+    },
+    formContainer :{
+      flex:1,
+      width:"70%", 
+      padding:10 , 
+    }, 
+    buttomContainer :{
+      flex:1
     },
     capture: {
-      flex: 1,
-      backgroundColor: "#000",
-      borderRadius: 10,
-      paddingHorizontal: RFPercentage(3),
-      margin: 10,
-      alignItems:"center", 
-      marginVertical: 10
-    },
-    capture1: {
-      flex: 1,
       backgroundColor: "red",
-      borderRadius: 10,
-      paddingHorizontal: RFPercentage(2),
-      margin: 10,
-      marginVertical:10, 
-      alignItems:"center",
-    
+      marginTop:20,
+      paddingVertical:20,
+      width:300,
+      alignSelf:"center",
+      alignItems:"center", 
+      marginVertical: 10, 
+      borderRadius:20 
+    },
+    buttonStyle :{
+      flex:1,
+      backgroundColor:"blue"
     },
     TitleTitle:{
       textAlign :"center" , 
@@ -476,17 +482,22 @@ return (
       color : "#000",
       fontSize:RFPercentage(1.5),                               
       marginVertical:10,
-      paddingVertical:5
+      paddingVertical:5,
+      fontWeight:"bold"
     },
     Bg : {
       resizeMode:"cover",
-      justifyContent: "flex-start",
       flex:1
     },
     textInput :{
-      flex : 1,
-      borderColor:"#000",
-      width: "60%"
+    borderColor:"black",
+    borderRadius:10, 
+    borderWidth:1,
+    height:70
+    }, 
+    pickerStyle :{
+      borderColor:"#000", 
+      borderWidth:2
     }
     })
   )

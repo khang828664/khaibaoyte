@@ -72,7 +72,7 @@ function AnotherDetail () {
       }
     dispatch(setActionYES(payload))
     await _Yes (images);
-    navigation.navigate("UGotSick")
+    navigation.navigate("infor")
  
   };
 
@@ -90,11 +90,11 @@ function AnotherDetail () {
     }
     dispatch(setActionNo(payload))
     if (notSick === 'N') {
-      navigation.navigate("Notifi")
+      navigation.navigate("infor")
     }
     else 
     {
-        navigation.navigate('UGotSick')
+        navigation.navigate('infor')
     }
 
   };
