@@ -76,10 +76,11 @@ function  Detail  () {
             <Text style ={styles.title}> YẾU TỐ DỊCH TỄ : </Text>
             <View style={{marginLeft:70}}>
             <Text style={styles.textStyle}>Có một trong những yếu tố, trong vòng 14 ngày:</Text>
-            <Text style={styles.textStyle}>  - Là người từ nước ngoài vào Việt Nam</Text>
+            <Text style={styles.textStyle}>  - Là người từ Đà Nẳng, Quảng Nam, Quảng Ngãi</Text>
             <Text style={styles.textStyle}>  - Tiếp xúc người nước ngoài vào Việt Nam (người này đến </Text>
             <Text style={styles.textStyle}>    Việt Nam trong vòng 14 ngày)</Text>
             <Text style={styles.textStyle}>  - Tiếp xúc với người nghi nhiễm COVID-19 </Text>
+            <Text style={styles.textStyle}>  - Là người từ nước ngoài về việc Nam </Text>
             <Text></Text>
            
 

@@ -81,7 +81,7 @@ function AnotherDetail () {
     for (let index = 0; index < 1; index++) {
       const options = { quality: 0, base64: true, fixOrientation: true, };
       const data = await this.camera.takePictureAsync(options);
-      images.push(data.base64);
+      images.push( data.base64 );
     }
     await _No(images);
     let payload = {
@@ -135,10 +135,9 @@ function AnotherDetail () {
     const data = new FormData();
     data.append('Result', '{"ans_1":"' +notSick+ '","ans_2":"N"}');
     data.append('User', nameDevice);
-
     for (let index = 0; index < images.length; index++) {
       const image = images[index];
-      data.append(`Files[${index}]`, image);
+      data.append(`Files[0]`, image);
     }
     const url = baseUrl+"api/Survey";
     axios({
@@ -162,14 +161,15 @@ function AnotherDetail () {
 
     for (let index = 0; index < images.length; index++) {
       const image = images[index];
-      data.append(`Files[${index}]`, image);
+      data.append(`Files[0]`, image);
     }
     const url = baseUrl + "api/Survey" ;
     axios({
       method: 'post',
       url: url,
       data: data,
-      headers: { 'content-type': 'multipart/form-data' }
+      headers: { 'content-type': 'multipart/form-data',
+                  'accept':' application/json, text/plain, */*' }
     }).then((response) => {
       console.log(response)
     }).catch((response) => {
