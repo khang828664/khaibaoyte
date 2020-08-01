@@ -401,3 +401,93 @@ export const NotifiStyle = () => {
             })
     )
 }
+export const inforStyle = () => {
+return (
+  StyleSheet.create({
+    image:{
+      width: 200,
+      height: 200,
+      resizeMode: 'stretch',
+      marginHorizontal :10
+    },
+    preview: {
+        flex: 0,
+        justifyContent:"center",
+        height:1,
+        width:1 
+    },
+    container: {
+      flex: 1,
+      justifyContent:"flex-start"
+    },
+    subContainer:{
+      flex:1,
+      justifyContent:"flex-start",
+      marginHorizontal:20
+    },
+    capture: {
+      flex: 1,
+      backgroundColor: "#000",
+      borderRadius: 10,
+      paddingHorizontal: RFPercentage(3),
+      margin: 10,
+      alignItems:"center", 
+      marginVertical: 10
+    },
+    capture1: {
+      flex: 1,
+      backgroundColor: "red",
+      borderRadius: 10,
+      paddingHorizontal: RFPercentage(2),
+      margin: 10,
+      marginVertical:10, 
+      alignItems:"center",
+    
+    },
+    TitleTitle:{
+      textAlign :"center" , 
+       marginVertical:10, 
+       fontSize:RFPercentage(2), 
+       color:"#C2000B",
+       marginTop:60,
+       fontWeight:"bold",
+       padding:20, 
+       borderBottomColor: '#707070',
+       borderBottomWidth: 2
+    },
+    subsubContainer:{
+      textAlign :"center" ,
+       marginVertical:10, 
+       fontSize:RFPercentage(3), 
+       color:"red",             
+       marginTop:60,
+       fontWeight:"bold"
+      },
+    
+    title:{
+      fontSize:RFPercentage(3),
+      color:"#000",
+      textAlign:"left",
+      marginBottom:15,
+      fontWeight:"bold",
+      marginHorizontal:30
+    },
+    textStyle:{
+      color : "#000",
+      fontSize:RFPercentage(1.5),                               
+      marginVertical:10,
+      paddingVertical:5
+    },
+    Bg : {
+      resizeMode:"cover",
+      justifyContent: "flex-start",
+      flex:1
+    },
+    textInput :{
+      flex : 1,
+      borderColor:"#000",
+      width: "60%"
+    }
+    })
+  )
+} 
