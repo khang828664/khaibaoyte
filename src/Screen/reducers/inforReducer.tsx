@@ -9,24 +9,25 @@ interface formSubmit {
     afterHandling : string     
 } 
 type payloadType = {
-    formSub : formSubmit,
+    formSubmit : formSubmit,
     error : boolean
     loadding :  boolean
 }
 type actionType = {
     type: string
-    payload : payloadType 
+    payload : payloadType
 } 
 
-const initalState = {
-    formSubmit : {
-        fullName : "",
-        birthday :"",
-        address :"", 
-        phoneNumber:"",
-        gender:"", 
-        degree:null, 
-        afterHandling:""
+const initalState   =  {
+    formSubmit :
+    {
+        fullName : "luu",
+        birthday :"11",
+        address :"11", 
+        phoneNumber:"1123123",
+        gender:"nam", 
+        degree:10, 
+        afterHandling:"ssss"
     }, 
     error : false,  
     loading: false
@@ -35,7 +36,7 @@ const initalState = {
 const  SUBMIT_FORM = "SUBMIT_FORM"
 const  SUBMIT_ERROR = "SUBMIT_ERROR"
 const  SUBMIT_SUCCESS = "SUBMIT_SUCCESS"
-export const inforReducer = (state : any = initalState , action : actionType) => {
+export const inforReducer = (state = initalState , action : actionType) => {
     switch (action.type) {
         case SUBMIT_ERROR:
             return {...state, success: action.payload.error}

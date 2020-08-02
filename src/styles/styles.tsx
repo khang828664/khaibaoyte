@@ -493,7 +493,8 @@ return (
     borderColor:"black",
     borderRadius:10, 
     borderWidth:1,
-    height:70
+    height:70, 
+    paddingHorizontal:10
     }, 
     pickerStyle :{
       borderColor:"#000", 

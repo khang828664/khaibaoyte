@@ -4,10 +4,13 @@ import  {Picker} from '@react-native-community/picker'
 import  {useNavigation} from  "@react-navigation/native"
 import  { useDispatch,  useSelector } from 'react-redux'
 import { inforStyle } from '../styles/styles'
+import  { BHYT_API } from '../constant/baseUrl'
+import axios from 'axios'
 
 
 // call constant  value
 
+const baseURL = BHYT_API
 const styles = inforStyle()
 const BG = require("./res/Main.png")
 const LOGO = require("./res/Logo.png")
@@ -17,37 +20,49 @@ const afterHandlingTitle = {
     title3 :"Khác"
 }
 //----end-----//
-
-type inforType = {
-    fullName : string
-    birthDay : string
-    address  : string
-    phoneNumber : string 
-    gender : string 
-    degree : number 
-    afterHandling : string 
+interface formType  {
+        fullName : string
+        birthDay : string
+        address  : string
+        phoneNumber : string 
+        gender : string 
+        degree : number 
+        afterHandling : string 
 }
+type dataType = {
+    TenBenhNhan: string
+    SoDienThoai: string 
+    NamSinh : number
+    GioiTinh : string
+    DiaChi: string
+}
+
 interface inforReducer  {
-    infor : inforType 
+    infor  : {
+        formSubmit : formType, 
+        error:boolean
+    }
 }
+
 function infor () {
-
-   
-
+// select propsFromStore
+const dispatch = useDispatch()
+const initalProps = useSelector((state : inforReducer ) =>state.infor.formSubmit)
 // inital state for this page 
-const  [ fullName, setFullNam ] = useState<string | undefined>("")
-const  [birthDay, setBirthDay ] = useState<string | undefined>("")
+
+const  [ fullName, setFullName ] = useState<string | undefined>("")
+const  [birthDay, setBirthDay ] = useState<string  | undefined>(null)
 const  [address, setAddress ] =  useState<string  | undefined>("")
 const  [phoneNumber, setPhoneNumber ] = useState< string | undefined> ("")
 const  [gender, setGender] = useState <string | undefined>("")
 const  [ degree, setDegree] =  useState <number | undefined>(null)
 const  [afterHandling , setAfterHandling] = useState<string | undefined> ("")
-const  [formSubmit, setformSubmit ] = useState <any| undefined>(null)
-const  [qrCode , setQrCode] = useState<string | undefined>("")
+const  [formSubmit, setformSubmit ] = useState(null)
+const  [qrCode , setQrCode] = useState<string | undefined>("1901000001")
 
 const navigation = useNavigation()
-useEffect(() => {
-    Keyboard.dismiss()
+useEffect(() => {   
+    getInforBHYT ()
     return () => {
     }
 }, [])
@@ -55,43 +70,93 @@ useEffect(() => {
 // Create Action
 
 const submit  = () => {
-    
+    let submitForm : formType = {
+        fullName : fullName,
+        birthDay : birthDay,
+        address  : address,
+        phoneNumber : phoneNumber,
+        gender : gender,
+        degree : degree ,
+        afterHandling : afterHandling
+    }
     console.log("submit thanh công")
+    console.table(submitForm)
     navigation.navigate("Home")
-
 }
-const DismissKeyBoard = ({children}) => (
 
-    <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
-        {children}
-    </TouchableWithoutFeedback>
-)
+// get api 
+
+const getInforBHYT =  async () => {
+    try {
+       await axios.get(baseURL +qrCode)
+        .then(response =>{
+            convertToField(response.data)
+            console.table(response.data)
+        })
+        .catch(e => {console.error(e.error)})
+    } catch (e) {
+        console.log(e)
+    }
+   
+}
+const convertToField = (data : dataType ) =>  {
+        setFullName(data.TenBenhNhan)
+        setPhoneNumber(data.SoDienThoai)
+        setBirthDay(data.NamSinh.toString())
+        setGender((data.GioiTinh)? "nữ":"nam")
+        setAddress(data.DiaChi)
+}   
+
 return  (
+    <TouchableWithoutFeedback onPressOut = {Keyboard.dismiss}>
     <ImageBackground style = {styles.Bg}  source = {BG}>
     <View style={styles.container}>
            
-           <DismissKeyBoard>
+           
             <View style={styles.subContainer}  >
             <Image source={LOGO} style={styles.image} />
             <Text style={styles.TitleTitle}>Xin hãy điền đầy đủ thông tin khai báo</Text>
-
+            <TouchableWithoutFeedback onPressOut ={Keyboard.dismiss}>
             <KeyboardAvoidingView style={styles.formContainer} behavior="height">
                 <View style={{flexDirection:"row", justifyContent:"space-between"}}>
                     <View style={{flex:1}}> 
                         <Text style ={styles.textStyle}>Họ và tên</Text>
-                        <TextInput value ={fullName} style ={styles.textInput} placeholder = "Nhập tên họ đầy đủ " onChangeText ={(value: string) => setFullNam(value)}/>
+                        <TextInput 
+                        value ={fullName} 
+                        style ={styles.textInput} 
+                        placeholder = "Nhập tên họ đầy đủ " 
+                        onChangeText ={(value: string) => setFullName(value)}
+                        />
                     </View>
                     <View style={{flex:1,marginLeft:20}}> 
                         <Text style ={styles.textStyle}>Số điện thoại</Text>
-                         <TextInput  style ={styles.textInput} keyboardType="number-pad" placeholder ="Số điện thoại" dataDetectorTypes ="phoneNumber" onChangeText ={(value:string)=>{setPhoneNumber(value)}} />                
+                         <TextInput  
+                         value ={phoneNumber} 
+                         style ={styles.textInput} 
+                         keyboardType="number-pad" 
+                         placeholder ="Số điện thoại"
+                          dataDetectorTypes ="phoneNumber" 
+                          onChangeText ={(value:string)=>{setPhoneNumber(value)}} 
+                          />                
                     </View>
                 </View>
                 <Text style ={styles.textStyle}>Địa chỉ</Text>
-                <TextInput  style ={styles.textInput} placeholder = "Địa chỉ"  dataDetectorTypes = "phoneNumber" onChangeText = {(value :string) => setAddress(value)} />
+                <TextInput  
+                value = {address}
+                style = {styles.textInput} 
+                placeholder = "Địa chỉ"  
+                dataDetectorTypes = "address" 
+                onChangeText = {(value :string) => setAddress(value)} 
+                />
                 <View style={{flexDirection:"row", justifyContent:"space-between"}}>
                     <View style={{flex:1}}> 
-                        <Text style ={styles.textStyle}>Nắm sinh</Text>
-                        <TextInput style ={styles.textInput} keyboardType="number-pad" placeholder = "Năm sinh"  dataDetectorTypes= "calendarEvent" onChangeText ={ (value:string) => setBirthDay(value)}/>
+                        <Text style ={styles.textStyle}>Năm sinh</Text>
+                        <TextInput 
+                        value ={birthDay}
+                        style ={styles.textInput} keyboardType="number-pad"
+                         placeholder = "Năm sinh"  
+                         dataDetectorTypes= "calendarEvent" 
+                         onChangeText ={(value:string) => setBirthDay(value)}/>
                     </View>
                     <View style={{flex:1,marginLeft:20}}>
                         <Text style ={styles.textStyle}>Giới tính</Text>
@@ -100,9 +165,8 @@ return  (
                                 onValueChange={(value:string) => {setGender(value)} }
                                  selectedValue={gender}
                                  >
-                                     <Picker.Item label = ""  value = ""/>
-                                    <Picker.Item label="Nam" value="1"/>
-                                    <Picker.Item label="Nữ" value="0"/>
+                                    <Picker.Item label="Nữ" value="nu"/>
+                                    <Picker.Item label="Nam" value="nam"/>
                             </Picker>
                 </View>
                 </View>
@@ -126,10 +190,12 @@ return  (
                     <Text style={[styles.textStyle,{color:"#fff", fontWeight:"bold",fontSize:50}]}>Xác nhận</Text>
                 </TouchableOpacity>
              </KeyboardAvoidingView>
+             </TouchableWithoutFeedback>
+             
             </View>
-            </DismissKeyBoard>
             </View>
             </ImageBackground>
+            </TouchableWithoutFeedback>
            
 )
 }
