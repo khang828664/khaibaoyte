@@ -7,20 +7,22 @@ type actionType ={
 }
 type payloadType = {
         answer2 : string
-        imageDataList : any
+        imageData : string
+        kiosk : string
 }
 const initalState = {
         answer2: "",
-        imageListData : null
+        imageData : "", 
+        kiosk:""
 }
 
 export const anotherDetailReducer  = (state =  initalState, action : actionType)  => {
     console.log(action.type)
     switch (action.type) {
-        case "YES":
-            return {...state, answer2 : action.payload.answer2 , imageDataList : action.payload.imageDataList } 
-        case "NO" :
-            return {...state, answer1 : action.payload.answer2 , imageDataList : action.payload.imageDataList }
+        case "ANOTHER_DETAIL_YES":
+            return {...state, answer2 : action.payload.answer2 , imageData : action.payload.imageData } 
+        case "ANOTHER_DETAIL_NO" :
+            return {...state, answer2 : action.payload.answer2 , imageData : action.payload.imageData }
         default:
             return state 
     }

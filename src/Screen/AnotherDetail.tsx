@@ -5,16 +5,16 @@ import {
   TouchableOpacity,
   View,
   ImageBackground,
-  Image
+  Image, 
+  ActivityIndicator, 
 } from 'react-native';
 import { RNCamera} from 'react-native-camera';
-import AsyncStorage from '@react-native-community/async-storage';
 import { getMacAddress } from 'react-native-device-info';
 import {useNavigation} from "@react-navigation/native"
-
-import axios from 'axios'
-import {AnotherDetailStyle} from '../styles/styles'
-import { BASE_URL } from  "../constant/baseUrl";
+import {AnotherDetailStyle} from '../styles/styles';
+import Dialog, { DialogContent } from 'react-native-popup-dialog';
+import  Icon  from 'react-native-vector-icons/FontAwesome';
+// import { BASE_URL } from  "../constant/baseUrl";
 // add constant props
 type stateUsing =  {
   detail: {
@@ -25,32 +25,40 @@ const styles  =  AnotherDetailStyle()
 const img = require("./res/Main.png")
 const logo = require("./res/Logo.png")
 const logo1 = require("./res/Logo1.png")
-const baseUrl = BASE_URL
-// get state at store  
 
+
+
+// const baseUrl = BASE_URL
+// get state at store  
 function AnotherDetail () {
   const navigation = useNavigation()
-
   //getState from rootStore
   const answer1 =  useSelector((state:stateUsing) => state.detail.answer1)
   const [nameDevice , setNameDevice] = useState<string>("")
   const [notSick , setNotSick ] = useState<string>(answer1)
+  const [isLoading , setIsLoading] = useState<boolean>(true)
   const dispatch = useDispatch()
-
+  
+  useEffect(() => {
+    console.log(answer1)
+    return () => {
+    }
+  }, [])
   // dispatch action generator 
 
    type payloadType = {
      answer2 : string 
-     imageData : any []
+     imageData : string
+     kiosk:string
    }
   const  setActionYES = (payload :  payloadType) => (
     {
-      type:"YES", 
+      type:"ANOTHER_DETAIL_YES", 
       payload
     }
   )
   const setActionNo  =  (payload : payloadType) => ({
-    type:"NO",
+    type:"ANOTHER_DETAIL_NO",
     payload
   })
 
@@ -60,43 +68,35 @@ function AnotherDetail () {
     _device()
   }, [])
   const  takePictureWithAnswerYes = async () => {
-    let images = [];
-    for (let index = 0; index < 1; index++) {
+      ShowDialog(isLoading)
       const options = { quality: 0, base64: true, fixOrientation: true, };
       const data = await this.camera.takePictureAsync(options);
-      images.push(data.base64);
-    }
       let payload = {
         answer2 : "Y",
-        imageData : images
+        imageData : data.base64, 
+        kiosk : nameDevice
       }
     dispatch(setActionYES(payload))
-    await _Yes (images);
+    setIsLoading(false)
     navigation.navigate("infor")
  
   };
 
   const  takePictureWithAnswerNo = async () => {
-    let images = [];
-    for (let index = 0; index < 1; index++) {
+      ShowDialog(isLoading)
       const options = { quality: 0, base64: true, fixOrientation: true, };
       const data = await this.camera.takePictureAsync(options);
-      images.push( data.base64 );
-    }
-    await _No(images);
+     
+  
+    // await _No(images);
     let payload = {
       answer2 : "N",
-      imageData : images
+      imageData : data.base64,
+      kiosk : nameDevice
     }
     dispatch(setActionNo(payload))
-    if (notSick === 'N') {
+      setIsLoading(false)
       navigation.navigate("infor")
-    }
-    else 
-    {
-        navigation.navigate('infor')
-    }
-
   };
 
   const _device = () => {
@@ -131,52 +131,53 @@ function AnotherDetail () {
         setNameDevice("kiosk6")
     }
   }
-    const  _No = async (images: any) => {
-    const data = new FormData();
-    data.append('Result', '{"ans_1":"' +notSick+ '","ans_2":"N"}');
-    data.append('User', nameDevice);
-    for (let index = 0; index < images.length; index++) {
-      const image = images[index];
-      data.append(`Files[0]`, image);
-    }
-    const url = baseUrl+"api/Survey";
-    axios({
-      method: 'post',
-      url: url,
-      data: data,
-      headers: { 'content-type': 'multipart/form-data' }
-    }).then((response) =>  {
-      console.log(response)
-      console.log(response)
-    }).catch((response) => {
-      //handle errror
-      console.log(response)
-    });
-  };
+  //   const  _No = async (images: any) => {
+  //   const data = new FormData();
+  //   data.append('Result', '{"ans_1":"' +notSick+ '","ans_2":"N"}');
+  //   data.append('User', nameDevice);
+  //   for (let index = 0; index < images.length; index++) {
+  //     const image = images[index];
+  //     data.append(`Files[0]`, image);
+  //   }
+  //   const url = baseUrl+"api/Survey";
+  //   axios({
+  //     method: 'post',
+  //     url: url,
+  //     data: data,
+  //     headers: { 'content-type': 'multipart/form-data' }
+  //   }).then((response) =>  {
+  //     console.log(response)
+  //     console.log(response)
+  //   }).catch((response) => {
+  //     //handle errror
+  //     console.log(response)
+  //   });
+  // };
 
-  const _Yes = async (images : any) => {
-    const data = new FormData();
-    data.append('Result', '{"ans_1":"' +notSick+ '","ans_2":"Y"}');
-    data.append('User', nameDevice);
+  // const _Yes = async (images : any) => {
+  //   const data = new FormData();
+  //   data.append('Result', '{"ans_1":"' +notSick+ '","ans_2":"Y"}');
+  //   data.append('User', nameDevice);
 
-    for (let index = 0; index < images.length; index++) {
-      const image = images[index];
-      data.append(`Files[0]`, image);
-    }
-    const url = baseUrl + "api/Survey" ;
-    axios({
-      method: 'post',
-      url: url,
-      data: data,
-      headers: { 'content-type': 'multipart/form-data',
-                  'accept':' application/json, text/plain, */*' }
-    }).then((response) => {
-      console.log(response)
-    }).catch((response) => {
-      console.log(response)
-    });
-    navigation.navigate("UGotSick")
-  };
+  //   for (let index = 0; index < images.length; index++) {
+  //     const image = images[index];
+  //     data.append(`Files[0]`, image);
+  //   }
+  //   const url = baseUrl + "api/Survey" ;
+  //   axios({
+  //     method: 'post',
+  //     url: url,
+  //     data: data,
+  //     headers: { 'content-type': 'multipart/form-data',
+  //                 'accept':' application/json, text/plain, */*' }
+  //   }).then((response) => {
+  //     console.log(response)
+  //   }).catch((response) => {
+  //     console.log(response)
+  //   });
+  //   navigation.navigate("UGotSick")
+  // };
+
     return (
       <View style={styles.container}>
         <RNCamera
@@ -217,14 +218,14 @@ function AnotherDetail () {
               <View style={styles.subsubContainer}>
                 <Text style={styles.title}> YẾU TỐ LÂM SÀNG : </Text>
                 <View style={{ marginHorizontal: 80 }}>
-                  <Text style={styles.textStyle}>  - Có một trong những triệu chứng </Text>
-                  <Text style={styles.textStyle}>     Sốt, ho, sổ mũi, đau họng, khó thở, viêm phổi </Text>
-                  <Text></Text>
-                  <Text></Text>
-                  <Text></Text>
-                  <Text></Text>
-                  <Text></Text>
-                  <Text></Text>
+                  <Text style={styles.textStyle}>-Có một trong những triệu chứng : </Text>
+                  <Text style={styles.textStyle}>   + Sốt, ho, sổ mũi </Text>
+                  <Text style={styles.textStyle}>   + Đau mỏi mình mẩy </Text>
+                  <Text style={styles.textStyle}>   + đau họng </Text>
+                  <Text style={styles.textStyle}>   + khó thở  </Text>
+                  <Text style={styles.textStyle}>   + viêm phổi </Text>
+                  <Text style={styles.textStyle}>   + .... </Text>
+                 
                   <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center', marginTop: 100 }}>
                     <TouchableOpacity onPress={async () => await takePictureWithAnswerNo()} style={styles.capture}>
                       <Text style={[styles.textStyle, { color: "#fff", fontSize: 40, fontWeight: "bold", marginVertical: 10, marginHorizontal: 20 }]}>KHÔNG</Text>
@@ -237,10 +238,30 @@ function AnotherDetail () {
               </View>
             </View>
           </View>
-
+          
         </ImageBackground>
       </View >
     );
   }
+
+function ShowDialog (props:any) {
+  return(
+  <>
+    <Dialog
+     visible={props.isActive}
+    >
+      <DialogContent>
+        <Text style={styles.TitleTitle}> Bạn đang được chụp ảnh xin đợi giây lát </Text>
+        <View>{(props.isActive) ? <>
+          <ActivityIndicator size="large" color="#00ff00" animating ={props.isActive}/>
+        </>: <>
+            <Icon name ="user-check" color ={"#00ff00"} size ={100}/>
+            </> }
+        </View>
+      </DialogContent>
+    </Dialog>
+  </>
+  )
+}
   
 export default AnotherDetail

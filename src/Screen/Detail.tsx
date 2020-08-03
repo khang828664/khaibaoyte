@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View , ImageBackground, Image} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useDispatch} from 'react-redux'
 import {connect} from 'react-redux'
 import { useNavigation } from '@react-navigation/native';
-
-
 
 const img = require("./res/Main.png")
 const logo = require("./res/Logo.png")
@@ -23,14 +21,13 @@ function  Detail  () {
   const dispatch =  useDispatch()
   const actionYes = (payload : payloadType ) =>{
     return {
-        type:"YES", 
+        type:"DETAIL_YES", 
         payload 
-
     }
   }
   const actionNo = (payload : payloadType ) =>{
     return {
-        type:"NO", 
+        type:"DETAIL_NO", 
         payload 
 
     }
